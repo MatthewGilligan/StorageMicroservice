@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package storage;
+
+// Request to store a user action
+message StoreActionRequest {
+    string userId = 1;
+    string actionId = 2;
+    string sessionId = 3;
+    string timestamp = 4;
+    string actionData = 5;  // JSON string
+}
+
+// Response after storing an action
+message StoreActionResponse {
+    string status = 1;      // "success" or "error"
+    string message = 2;
+    string actionId = 3;
+}
+
+// Request to get user's action history
+message GetUserHistoryRequest {
+    string userId = 1;
+    int32 limit = 2;        // Optional: limit number of results
+}
+
+// Single action in history
+message Action {
+    string actionId = 1;
+    string timestamp = 2;
+    string actionType = 3;
+    string actionData = 4;
+}
+
+// Response with user's action history
+message GetUserHistoryResponse {
+    repeated Action actions = 1;
+    int32 totalCount = 2;
+}
+
+// Request to restore to a previous state
+message RestoreStateRequest {
+    string userId = 1;
+    string actionId = 2;    // ID of the action/state to restore to
+}
+
+// Response after restoring state
+message RestoreStateResponse {
+    string status = 1;
+    string message = 2;
+    string restoredActionId = 3;
+}
+
+// The storage service definition
+service StorageService {
+    rpc StoreAction(StoreActionRequest) returns (StoreActionResponse);
+    rpc GetUserHistory(GetUserHistoryRequest) returns (GetUserHistoryResponse);
+    rpc RestoreState(RestoreStateRequest) returns (RestoreStateResponse);
+}
