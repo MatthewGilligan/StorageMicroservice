@@ -21,7 +21,6 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 
 const storageProto = grpc.loadPackageDefinition(packageDefinition).storage;
 
-// Create gRPC server
 function createServer() {
     const server = new grpc.Server();
 
@@ -35,18 +34,16 @@ function createServer() {
     return server;
 }
 
-// Start the server
 async function startServer() {
     try {
-        // Initialize database
+        
         console.log('Initializing database...');
         initializeDatabase();
 
-        // Connect to RabbitMQ
+        
         console.log('Connecting to RabbitMQ...');
         await connectRabbitMQ();
 
-        // Set up RabbitMQ consumer for async storage requests
         await consumeMessages('storage-requests', async (message) => {
             console.log('Received async storage request:', message);
             
@@ -67,7 +64,6 @@ async function startServer() {
             }
         });
 
-        // Create and start gRPC server
         const server = createServer();
         const port = process.env.GRPC_PORT || 50051;
         const address = `0.0.0.0:${port}`;
@@ -103,5 +99,4 @@ process.on('SIGTERM', () => {
     process.exit(0);
 });
 
-// Start the server
 startServer();

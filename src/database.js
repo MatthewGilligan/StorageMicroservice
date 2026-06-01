@@ -1,11 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// Create/connect to database
 const dbPath = path.join(__dirname, '../data/storage.db');
 const db = new sqlite3.Database(dbPath);
 
-// Initialize database schema
 function initializeDatabase() {
     db.serialize(() => {
         // Create user_actions table
@@ -32,7 +30,6 @@ function initializeDatabase() {
     });
 }
 
-// Store an action
 function storeAction(userId, actionId, sessionId, timestamp, actionData) {
     return new Promise((resolve, reject) => {
         // Parse action data to extract action type
@@ -62,7 +59,6 @@ function storeAction(userId, actionId, sessionId, timestamp, actionData) {
     });
 }
 
-// Get user's action history
 function getUserHistory(userId, limit = 100) {
     return new Promise((resolve, reject) => {
         const sql = `
@@ -83,7 +79,6 @@ function getUserHistory(userId, limit = 100) {
     });
 }
 
-// Get a specific action by ID
 function getActionById(userId, actionId) {
     return new Promise((resolve, reject) => {
         const sql = `

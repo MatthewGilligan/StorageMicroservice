@@ -3,7 +3,6 @@ const amqp = require('amqplib');
 let channel = null;
 let connection = null;
 
-// Connect to RabbitMQ
 async function connectRabbitMQ() {
     try {
         const rabbitURL = process.env.RABBITMQ_URL || 'amqp://localhost';
@@ -22,7 +21,6 @@ async function connectRabbitMQ() {
     }
 }
 
-// Publish a message to a queue
 async function publishMessage(queueName, message) {
     try {
         if (!channel) {
@@ -39,7 +37,6 @@ async function publishMessage(queueName, message) {
     }
 }
 
-// Consume messages from a queue
 async function consumeMessages(queueName, callback) {
     try {
         if (!channel) {
@@ -61,7 +58,6 @@ async function consumeMessages(queueName, callback) {
     }
 }
 
-// Close connection
 async function closeRabbitMQ() {
     try {
         if (channel) await channel.close();
