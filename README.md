@@ -2,7 +2,7 @@
 
 **Authors:** Matthew Gilligan, Charles  
 **Repository:** https://github.com/MatthewGilligan/StorageMicroservice
-
+ 
 ## Overview
 
 This microservice provides persistent storage for user actions with support for action history and state restoration. It uses gRPC for communication, SQLite for data persistence, and RabbitMQ for event notifications.
